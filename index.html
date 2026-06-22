@@ -12,6 +12,10 @@
     --success: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
+    --p1-color: #3b82f6;
+    --p1-color-light: #60a5fa;
+    --p2-color: #ec4899;
+    --p2-color-light: #f472b6;
     --bg: #0f172a;
     --card-bg: #1e293b;
     --text: #f1f5f9;
@@ -36,7 +40,7 @@
     z-index: 0;
   }
   .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -154,8 +158,8 @@
     font-weight: 800;
     font-variant-numeric: tabular-nums;
   }
-  .stat-card.player1 .value { color: #60a5fa; }
-  .stat-card.player2 .value { color: #f472b6; }
+  .stat-card.player1 .value { color: var(--p1-color-light); }
+  .stat-card.player2 .value { color: var(--p2-color-light); }
   .game-actions {
     display: flex;
     gap: 10px;
@@ -166,6 +170,65 @@
     flex: 1;
     min-width: 100px;
   }
+  .boards-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .boards-container.double {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 900px) {
+    .boards-container.double {
+      grid-template-columns: 1fr;
+    }
+  }
+  .player-board {
+    border-radius: 20px;
+    padding: 16px;
+    background: rgba(15, 23, 42, 0.4);
+    border: 2px solid transparent;
+  }
+  .player-board.p1 {
+    border-color: rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(15, 23, 42, 0.4));
+  }
+  .player-board.p2 {
+    border-color: rgba(236, 72, 153, 0.4);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.05), rgba(15, 23, 42, 0.4));
+  }
+  .player-board.finished {
+    opacity: 0.6;
+  }
+  .player-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .player-title h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .player-board.p1 .player-title h3 { color: var(--p1-color-light); }
+  .player-board.p2 .player-title h3 { color: var(--p2-color-light); }
+  .player-mini-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .player-mini-stats span {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .player-board.p1 .player-mini-stats span { color: var(--p1-color-light); }
+  .player-board.p2 .player-mini-stats span { color: var(--p2-color-light); }
   .board-wrapper {
     display: flex;
     justify-content: center;
@@ -173,14 +236,14 @@
   }
   .board {
     display: grid;
-    gap: clamp(6px, 1.5vw, 14px);
+    gap: clamp(4px, 1vw, 10px);
     width: 100%;
-    max-width: 700px;
+    max-width: 600px;
     aspect-ratio: 1;
   }
   .board.size-4 { grid-template-columns: repeat(4, 1fr); }
   .board.size-6 { grid-template-columns: repeat(6, 1fr); }
-  .board.size-8 { grid-template-columns: repeat(8, 1fr); max-width: 650px; }
+  .board.size-8 { grid-template-columns: repeat(8, 1fr); max-width: 550px; }
   .card {
     position: relative;
     perspective: 1000px;
@@ -193,7 +256,7 @@
     inset: 0;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: clamp(8px, 1.5vw, 14px);
+    border-radius: clamp(6px, 1.2vw, 12px);
   }
   .card.flipped .card-inner {
     transform: rotateY(180deg);
@@ -206,7 +269,7 @@
   }
   @keyframes matchPulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.08); }
   }
   .card-face {
     position: absolute;
@@ -217,7 +280,7 @@
     align-items: center;
     justify-content: center;
     border-radius: inherit;
-    font-size: clamp(1.2rem, 3.5vw, 2.8rem);
+    font-size: clamp(1rem, 3vw, 2.2rem);
     font-weight: bold;
     overflow: hidden;
   }
@@ -228,9 +291,23 @@
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4),
                 inset 0 0 0 2px rgba(255,255,255,0.1);
   }
+  .player-board.p1 .card-back {
+    background: linear-gradient(135deg, #1d4ed8, #3b82f6, #60a5fa);
+    background-size: 200% 200%;
+    animation: gradientShift 4s ease infinite;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4),
+                inset 0 0 0 2px rgba(255,255,255,0.1);
+  }
+  .player-board.p2 .card-back {
+    background: linear-gradient(135deg, #be185d, #ec4899, #f472b6);
+    background-size: 200% 200%;
+    animation: gradientShift 4s ease infinite;
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4),
+                inset 0 0 0 2px rgba(255,255,255,0.1);
+  }
   .card-back::before {
     content: '?';
-    font-size: clamp(1rem, 3vw, 2rem);
+    font-size: clamp(0.8rem, 2.5vw, 1.6rem);
     color: rgba(255,255,255,0.9);
     font-weight: 900;
     text-shadow: 0 2px 10px rgba(0,0,0,0.3);
@@ -248,6 +325,20 @@
   .card.matched .card-front {
     background: linear-gradient(135deg, #064e3b, #065f46);
     box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+  }
+  .finished-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--success);
+    color: #000;
+    animation: pulseBadge 1.5s ease infinite;
+  }
+  @keyframes pulseBadge {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
   }
   .tab-buttons {
     display: flex;
@@ -343,7 +434,7 @@
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 24px;
     padding: 32px 28px;
-    max-width: 450px;
+    max-width: 550px;
     width: 100%;
     transform: scale(0.9) translateY(20px);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -391,6 +482,11 @@
     text-align: center;
     border: 1px solid rgba(255,255,255,0.06);
   }
+  .result-stat.winner {
+    border-color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  }
   .result-stat .lbl {
     font-size: 0.75rem;
     color: var(--text-muted);
@@ -401,6 +497,37 @@
   .result-stat .val {
     font-size: 1.5rem;
     font-weight: 800;
+  }
+  .result-stat.p1 .val { color: var(--p1-color-light); }
+  .result-stat.p2 .val { color: var(--p2-color-light); }
+  .vs-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, var(--p1-color), var(--p2-color));
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.1rem;
+    z-index: 5;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    display: none;
+  }
+  .boards-container.double {
+    position: relative;
+  }
+  .boards-container.double .vs-badge {
+    display: flex;
+  }
+  @media (max-width: 900px) {
+    .vs-badge {
+      display: none !important;
+    }
   }
   .modal-actions {
     display: flex;
@@ -443,12 +570,19 @@
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { border-color: var(--success); }
   .toast.error { border-color: var(--danger); }
+  .toast.p1 { border-color: var(--p1-color); }
+  .toast.p2 { border-color: var(--p2-color); }
   @media (max-width: 480px) {
     body { padding: 12px; }
     .panel { padding: 16px; }
     .modal { padding: 24px 20px; }
     .settings { grid-template-columns: 1fr; }
     .game-actions button { min-width: 80px; padding: 10px 12px; font-size: 0.85rem; }
+    .player-title {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
   }
 </style>
 </head>
@@ -492,8 +626,8 @@
   </div>
 
   <div class="panel board-container" id="boardPanel" style="display:none;">
-    <div class="board-wrapper">
-      <div class="board" id="board"></div>
+    <div class="boards-container" id="boardsContainer">
+      <div class="vs-badge">VS</div>
     </div>
     <div class="pause-hint" id="pauseHint" style="display:none;">已暂停</div>
   </div>
@@ -533,26 +667,34 @@
     '🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','🐂','🐄','🐎','🐖'
   ];
 
+  function createPlayerState(playerNum) {
+    return {
+      player: playerNum,
+      cards: [],
+      flipped: [],
+      matched: [],
+      moves: 0,
+      elapsed: 0,
+      startTime: null,
+      timer: null,
+      isProcessing: false,
+      finished: false,
+      finishTime: null
+    };
+  }
+
   let state = {
     size: 6,
     mode: 'single',
-    cards: [],
-    flipped: [],
-    matched: [],
-    moves: 0,
-    startTime: null,
-    elapsed: 0,
-    timer: null,
+    players: {},
     isPaused: false,
-    isProcessing: false,
-    currentPlayer: 1,
-    scores: { 1: 0, 2: 0 },
-    gameStarted: false
+    gameStarted: false,
+    winner: null
   };
 
   const $ = id => document.getElementById(id);
 
-  const board = $('board');
+  const boardsContainer = $('boardsContainer');
   const difficultySelect = $('difficulty');
   const modeSelect = $('gameMode');
   const startBtn = $('startBtn');
@@ -601,53 +743,98 @@
   }
 
   function formatTime(ms) {
+    if (ms == null) return '--:--';
     const s = Math.floor(ms / 1000);
     const m = Math.floor(s / 60);
     const ss = s % 60;
     return `${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
   }
 
-  function startGame() {
-    state.size = parseInt(difficultySelect.value);
-    state.mode = modeSelect.value;
-    state.cards = [];
-    state.flipped = [];
-    state.matched = [];
-    state.moves = 0;
-    state.elapsed = 0;
-    state.isPaused = false;
-    state.isProcessing = false;
-    state.currentPlayer = 1;
-    state.scores = { 1: 0, 2: 0 };
-    state.gameStarted = true;
-
-    const totalPairs = (state.size * state.size) / 2;
+  function generateCards(size) {
+    const totalPairs = (size * size) / 2;
     const selectedEmojis = shuffle([...EMOJIS]).slice(0, totalPairs);
     const cardValues = shuffle([...selectedEmojis, ...selectedEmojis]);
-
-    state.cards = cardValues.map((val, idx) => ({
+    return cardValues.map((val, idx) => ({
       id: idx,
       value: val,
       flipped: false,
       matched: false
     }));
+  }
+
+  function startGame() {
+    state.size = parseInt(difficultySelect.value);
+    state.mode = modeSelect.value;
+    state.isPaused = false;
+    state.gameStarted = true;
+    state.winner = null;
+
+    if (state.mode === 'single') {
+      state.players = { 1: createPlayerState(1) };
+      state.players[1].cards = generateCards(state.size);
+    } else {
+      state.players = {
+        1: createPlayerState(1),
+        2: createPlayerState(2)
+      };
+      state.players[1].cards = generateCards(state.size);
+      state.players[2].cards = generateCards(state.size);
+    }
 
     statsPanel.style.display = 'block';
     boardPanel.style.display = 'block';
     pauseHint.style.display = 'none';
 
+    boardsContainer.className = 'boards-container' + (state.mode === 'double' ? ' double' : '');
+
     renderStats();
-    renderBoard();
-    startTimer();
+    renderBoards();
+    startAllTimers();
     showToast('游戏开始！', 'success');
   }
 
-  function renderBoard() {
-    board.className = 'board size-' + state.size;
-    board.innerHTML = '';
-    state.cards.forEach(card => {
+  function renderBoards() {
+    boardsContainer.innerHTML = '';
+    if (state.mode === 'double') {
+      const vsBadge = document.createElement('div');
+      vsBadge.className = 'vs-badge';
+      vsBadge.textContent = 'VS';
+      boardsContainer.appendChild(vsBadge);
+    }
+
+    Object.values(state.players).forEach(p => {
+      const playerDiv = document.createElement('div');
+      playerDiv.className = `player-board p${p.player}`;
+      playerDiv.dataset.player = p.player;
+      playerDiv.id = `player-${p.player}`;
+
+      playerDiv.innerHTML = `
+        <div class="player-title">
+          <h3>👤 玩家${p.player} <span id="p${p.player}-badge"></span></h3>
+          <div class="player-mini-stats">
+            <span id="p${p.player}-time">${formatTime(0)}</span>
+            <span id="p${p.player}-moves">0 步</span>
+            <span id="p${p.player}-progress">0/${p.cards.length}</span>
+          </div>
+        </div>
+        <div class="board-wrapper">
+          <div class="board size-${state.size}" id="board-${p.player}"></div>
+        </div>
+      `;
+
+      boardsContainer.appendChild(playerDiv);
+      renderPlayerBoard(p);
+    });
+  }
+
+  function renderPlayerBoard(player) {
+    const boardEl = $(`board-${player.player}`);
+    boardEl.innerHTML = '';
+    player.cards.forEach(card => {
       const el = document.createElement('div');
       el.className = 'card';
+      if (card.flipped) el.classList.add('flipped');
+      if (card.matched) el.classList.add('matched');
       el.dataset.id = card.id;
       el.innerHTML = `
         <div class="card-inner">
@@ -655,9 +842,31 @@
           <div class="card-face card-front">${card.value}</div>
         </div>
       `;
-      el.addEventListener('click', () => handleCardClick(card.id));
-      board.appendChild(el);
+      el.addEventListener('click', () => handleCardClick(player.player, card.id));
+      boardEl.appendChild(el);
     });
+  }
+
+  function updatePlayerBoardDisplay(player) {
+    const badge = $(`p${player.player}-badge`);
+    if (badge) {
+      badge.innerHTML = player.finished ? '<span class="finished-badge">已完成 ✓</span>' : '';
+    }
+    const timeEl = $(`p${player.player}-time`);
+    if (timeEl) timeEl.textContent = formatTime(player.elapsed);
+    const movesEl = $(`p${player.player}-moves`);
+    if (movesEl) movesEl.textContent = `${player.moves} 步`;
+    const progEl = $(`p${player.player}-progress`);
+    if (progEl) progEl.textContent = `${player.matched.length}/${player.cards.length}`;
+
+    const playerDiv = $(`player-${player.player}`);
+    if (playerDiv) {
+      if (player.finished) {
+        playerDiv.classList.add('finished');
+      } else {
+        playerDiv.classList.remove('finished');
+      }
+    }
   }
 
   function renderStats() {
@@ -666,34 +875,34 @@
       html = `
         <div class="stat-card">
           <div class="label">⏱️ 用时</div>
-          <div class="value" id="timeDisplay">${formatTime(state.elapsed)}</div>
+          <div class="value" id="timeDisplay">${formatTime(0)}</div>
         </div>
         <div class="stat-card">
           <div class="label">👆 步数</div>
-          <div class="value" id="movesDisplay">${state.moves}</div>
+          <div class="value" id="movesDisplay">0</div>
         </div>
         <div class="stat-card">
           <div class="label">✅ 进度</div>
-          <div class="value" id="progressDisplay">${state.matched.length}/${state.cards.length}</div>
+          <div class="value" id="progressDisplay">0/${state.players[1].cards.length}</div>
         </div>
       `;
     } else {
       html = `
-        <div class="stat-card player1 ${state.currentPlayer === 1 ? 'active' : ''}">
+        <div class="stat-card player1">
           <div class="label">👤 玩家1</div>
-          <div class="value" id="p1Score">${state.scores[1]}</div>
+          <div class="value" id="p1Score">${formatTime(0)}</div>
         </div>
-        <div class="stat-card player2 ${state.currentPlayer === 2 ? 'active' : ''}">
+        <div class="stat-card">
+          <div class="label">⚔️ 对战</div>
+          <div class="value" style="font-size:1rem;">VS</div>
+        </div>
+        <div class="stat-card player2">
           <div class="label">👤 玩家2</div>
-          <div class="value" id="p2Score">${state.scores[2]}</div>
+          <div class="value" id="p2Score">${formatTime(0)}</div>
         </div>
         <div class="stat-card">
-          <div class="label">⏱️ 用时</div>
-          <div class="value" id="timeDisplay">${formatTime(state.elapsed)}</div>
-        </div>
-        <div class="stat-card">
-          <div class="label">✅ 进度</div>
-          <div class="value" id="progressDisplay">${state.matched.length}/${state.cards.length}</div>
+          <div class="label">🏁 状态</div>
+          <div class="value" id="raceStatus" style="font-size:0.9rem;">进行中</div>
         </div>
       `;
     }
@@ -701,39 +910,65 @@
   }
 
   function updateStatDisplays() {
-    const timeEl = $('timeDisplay');
-    if (timeEl) timeEl.textContent = formatTime(state.elapsed);
-    const movesEl = $('movesDisplay');
-    if (movesEl) movesEl.textContent = state.moves;
-    const progEl = $('progressDisplay');
-    if (progEl) progEl.textContent = `${state.matched.length}/${state.cards.length}`;
-    if (state.mode === 'double') {
-      const p1 = $('p1Score');
-      const p2 = $('p2Score');
-      if (p1) p1.textContent = state.scores[1];
-      if (p2) p2.textContent = state.scores[2];
-      document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active'));
-      const active = state.currentPlayer === 1 ? 0 : 1;
-      document.querySelectorAll('.stat-card')[active]?.classList.add('active');
-    }
-  }
+    if (state.mode === 'single') {
+      const p = state.players[1];
+      const timeEl = $('timeDisplay');
+      if (timeEl) timeEl.textContent = formatTime(p.elapsed);
+      const movesEl = $('movesDisplay');
+      if (movesEl) movesEl.textContent = p.moves;
+      const progEl = $('progressDisplay');
+      if (progEl) progEl.textContent = `${p.matched.length}/${p.cards.length}`;
+    } else {
+      const p1 = state.players[1];
+      const p2 = state.players[2];
+      const p1El = $('p1Score');
+      const p2El = $('p2Score');
+      if (p1El) p1El.textContent = formatTime(p1.elapsed);
+      if (p2El) p2El.textContent = formatTime(p2.elapsed);
 
-  function startTimer() {
-    stopTimer();
-    state.startTime = Date.now() - state.elapsed;
-    state.timer = setInterval(() => {
-      if (!state.isPaused) {
-        state.elapsed = Date.now() - state.startTime;
-        updateStatDisplays();
+      const statusEl = $('raceStatus');
+      if (statusEl) {
+        if (state.winner) {
+          statusEl.textContent = `玩家${state.winner}胜！`;
+          statusEl.style.color = state.winner === 1 ? 'var(--p1-color-light)' : 'var(--p2-color-light)';
+        } else if (p1.finished && p2.finished) {
+          statusEl.textContent = '已结束';
+        } else if (p1.finished) {
+          statusEl.textContent = '玩家1已完赛';
+          statusEl.style.color = 'var(--p1-color-light)';
+        } else if (p2.finished) {
+          statusEl.textContent = '玩家2已完赛';
+          statusEl.style.color = 'var(--p2-color-light)';
+        } else {
+          statusEl.textContent = '竞速中...';
+          statusEl.style.color = 'var(--text)';
+        }
       }
-    }, 250);
+    }
+
+    Object.values(state.players).forEach(p => updatePlayerBoardDisplay(p));
   }
 
-  function stopTimer() {
-    if (state.timer) {
-      clearInterval(state.timer);
-      state.timer = null;
-    }
+  function startAllTimers() {
+    stopAllTimers();
+    Object.values(state.players).forEach(p => {
+      p.startTime = Date.now() - p.elapsed;
+      p.timer = setInterval(() => {
+        if (!state.isPaused && !p.finished) {
+          p.elapsed = Date.now() - p.startTime;
+          updateStatDisplays();
+        }
+      }, 250);
+    });
+  }
+
+  function stopAllTimers() {
+    Object.values(state.players).forEach(p => {
+      if (p.timer) {
+        clearInterval(p.timer);
+        p.timer = null;
+      }
+    });
   }
 
   function togglePause() {
@@ -744,93 +979,143 @@
     if (state.isPaused) {
       showToast('游戏已暂停', '');
     } else {
-      state.startTime = Date.now() - state.elapsed;
+      Object.values(state.players).forEach(p => {
+        if (!p.finished) {
+          p.startTime = Date.now() - p.elapsed;
+        }
+      });
       showToast('游戏继续', 'success');
     }
   }
 
-  function handleCardClick(id) {
-    if (!state.gameStarted || state.isPaused || state.isProcessing) return;
-    const card = state.cards[id];
+  function handleCardClick(playerNum, cardId) {
+    if (!state.gameStarted || state.isPaused) return;
+    const player = state.players[playerNum];
+    if (player.finished || player.isProcessing) return;
+
+    const card = player.cards[cardId];
     if (card.flipped || card.matched) return;
 
     card.flipped = true;
-    state.flipped.push(card);
-    const el = board.querySelector(`[data-id="${id}"]`);
+    player.flipped.push(card);
+    const boardEl = $(`board-${playerNum}`);
+    const el = boardEl.querySelector(`[data-id="${cardId}"]`);
     el.classList.add('flipped');
 
-    if (state.flipped.length === 2) {
-      state.moves++;
-      state.isProcessing = true;
+    if (player.flipped.length === 2) {
+      player.moves++;
+      player.isProcessing = true;
       updateStatDisplays();
-      checkMatch();
+      checkMatch(playerNum);
     }
   }
 
-  function checkMatch() {
-    const [c1, c2] = state.flipped;
+  function checkMatch(playerNum) {
+    const player = state.players[playerNum];
+    const [c1, c2] = player.flipped;
+    const boardEl = $(`board-${playerNum}`);
+
     if (c1.value === c2.value) {
       c1.matched = true;
       c2.matched = true;
-      state.matched.push(c1, c2);
-      const el1 = board.querySelector(`[data-id="${c1.id}"]`);
-      const el2 = board.querySelector(`[data-id="${c2.id}"]`);
+      player.matched.push(c1, c2);
+      const el1 = boardEl.querySelector(`[data-id="${c1.id}"]`);
+      const el2 = boardEl.querySelector(`[data-id="${c2.id}"]`);
       el1.classList.add('matched');
       el2.classList.add('matched');
 
-      if (state.mode === 'double') {
-        state.scores[state.currentPlayer]++;
-      }
-      state.flipped = [];
-      state.isProcessing = false;
+      player.flipped = [];
+      player.isProcessing = false;
       updateStatDisplays();
-      showToast('配对成功！ ✨', 'success');
-      setTimeout(checkWin, 300);
+      showToast(`玩家${playerNum} 配对成功！✨`, 'p' + playerNum);
+      setTimeout(() => checkWin(playerNum), 300);
     } else {
       setTimeout(() => {
         c1.flipped = false;
         c2.flipped = false;
-        const el1 = board.querySelector(`[data-id="${c1.id}"]`);
-        const el2 = board.querySelector(`[data-id="${c2.id}"]`);
+        const el1 = boardEl.querySelector(`[data-id="${c1.id}"]`);
+        const el2 = boardEl.querySelector(`[data-id="${c2.id}"]`);
         el1.classList.remove('flipped');
         el2.classList.remove('flipped');
-        state.flipped = [];
-        state.isProcessing = false;
-        if (state.mode === 'double') {
-          state.currentPlayer = state.currentPlayer === 1 ? 2 : 1;
-          updateStatDisplays();
-        }
+        player.flipped = [];
+        player.isProcessing = false;
       }, 1000);
     }
   }
 
-  function checkWin() {
-    if (state.matched.length === state.cards.length) {
-      stopTimer();
-      state.gameStarted = false;
-      saveRecord();
-      setTimeout(showVictory, 500);
+  function checkWin(playerNum) {
+    const player = state.players[playerNum];
+    if (player.matched.length === player.cards.length && !player.finished) {
+      player.finished = true;
+      player.finishTime = player.elapsed;
+      if (player.timer) {
+        clearInterval(player.timer);
+        player.timer = null;
+      }
+      updateStatDisplays();
+      showToast(`🎉 玩家${playerNum} 完成！`, 'success');
+
+      if (state.mode === 'single') {
+        state.gameStarted = false;
+        saveRecord();
+        setTimeout(showVictory, 500);
+      } else {
+        const otherNum = playerNum === 1 ? 2 : 1;
+        const other = state.players[otherNum];
+
+        if (!state.winner) {
+          state.winner = playerNum;
+        }
+
+        if (other.finished) {
+          state.gameStarted = false;
+          saveRecord();
+          setTimeout(showVictory, 800);
+        }
+      }
     }
   }
 
   function saveRecord() {
     const key = state.mode === 'single' ? 'memory_single_records' : 'memory_double_records';
     const records = JSON.parse(localStorage.getItem(key) || '[]');
-    const record = {
-      size: state.size,
-      time: state.elapsed,
-      moves: state.moves,
-      date: new Date().toISOString(),
-      scores: state.mode === 'double' ? { ...state.scores } : null
-    };
+
+    let record;
+    if (state.mode === 'single') {
+      const p = state.players[1];
+      record = {
+        size: state.size,
+        time: p.elapsed,
+        moves: p.moves,
+        date: new Date().toISOString(),
+        winner: null,
+        players: null
+      };
+    } else {
+      const p1 = state.players[1];
+      const p2 = state.players[2];
+      record = {
+        size: state.size,
+        time: Math.max(p1.elapsed, p2.elapsed),
+        moves: p1.moves + p2.moves,
+        date: new Date().toISOString(),
+        winner: state.winner,
+        players: {
+          1: { time: p1.elapsed, moves: p1.moves, finished: p1.finished },
+          2: { time: p2.elapsed, moves: p2.moves, finished: p2.finished }
+        }
+      };
+    }
+
     records.push(record);
     records.sort((a, b) => {
       if (a.size !== b.size) return a.size - b.size;
       if (state.mode === 'single') {
         if (a.time !== b.time) return a.time - b.time;
         return a.moves - b.moves;
+      } else {
+        return 0;
       }
-      return 0;
     });
     localStorage.setItem(key, JSON.stringify(records.slice(0, 50)));
     renderLeaderboard(state.mode);
@@ -844,41 +1129,50 @@
     const stats = $('victoryStats');
 
     if (state.mode === 'single') {
+      const p = state.players[1];
       emoji.textContent = '🎉';
       title.textContent = '恭喜通关！';
       subtitle.textContent = `难度：${state.size}×${state.size}`;
       stats.innerHTML = `
         <div class="result-stat">
           <div class="lbl">⏱️ 用时</div>
-          <div class="val">${formatTime(state.elapsed)}</div>
+          <div class="val">${formatTime(p.elapsed)}</div>
         </div>
         <div class="result-stat">
           <div class="lbl">👆 步数</div>
-          <div class="val">${state.moves}</div>
+          <div class="val">${p.moves}</div>
         </div>
       `;
     } else {
-      const p1 = state.scores[1];
-      const p2 = state.scores[2];
-      if (p1 > p2) {
+      const p1 = state.players[1];
+      const p2 = state.players[2];
+
+      if (state.winner === 1) {
         emoji.textContent = '🏆';
         title.textContent = '玩家1 获胜！';
-      } else if (p2 > p1) {
+      } else if (state.winner === 2) {
         emoji.textContent = '🎖️';
         title.textContent = '玩家2 获胜！';
       } else {
         emoji.textContent = '🤝';
         title.textContent = '平局！';
       }
-      subtitle.textContent = `难度：${state.size}×${state.size} · 用时 ${formatTime(state.elapsed)}`;
+
+      subtitle.textContent = `难度：${state.size}×${state.size} · 玩家${state.winner}率先完成`;
+
+      const p1Winner = state.winner === 1 ? 'winner' : '';
+      const p2Winner = state.winner === 2 ? 'winner' : '';
+
       stats.innerHTML = `
-        <div class="result-stat" style="border-color: rgba(96,165,250,0.3);">
+        <div class="result-stat p1 ${p1Winner}">
           <div class="lbl">👤 玩家1</div>
-          <div class="val" style="color:#60a5fa;">${p1} 对</div>
+          <div class="val" style="color:var(--p1-color-light);">${formatTime(p1.elapsed)}</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">${p1.moves} 步</div>
         </div>
-        <div class="result-stat" style="border-color: rgba(244,114,182,0.3);">
+        <div class="result-stat p2 ${p2Winner}">
           <div class="lbl">👤 玩家2</div>
-          <div class="val" style="color:#f472b6;">${p2} 对</div>
+          <div class="val" style="color:var(--p2-color-light);">${formatTime(p2.elapsed)}</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">${p2.moves} 步</div>
         </div>
       `;
     }
@@ -891,12 +1185,12 @@
   }
 
   function restartGame() {
-    if (state.timer) stopTimer();
+    stopAllTimers();
     startGame();
   }
 
   function quitGame() {
-    if (state.timer) stopTimer();
+    stopAllTimers();
     state.gameStarted = false;
     statsPanel.style.display = 'none';
     boardPanel.style.display = 'none';
@@ -938,12 +1232,15 @@
           </div>
         `);
       } else {
+        const p1Time = formatTime(r.players?.[1]?.time);
+        const p2Time = formatTime(r.players?.[2]?.time);
+        const winnerText = r.winner ? `🏆 玩家${r.winner}胜` : '平局';
         html.push(`
           <div class="leaderboard-item ${cls}">
             <div class="rank">${i + 1}</div>
             <div class="lb-info">
               <div>${sizeMap[r.size] || r.size + '×' + r.size}</div>
-              <div class="lb-mode">P1:${r.scores?.[1] || 0} vs P2:${r.scores?.[2] || 0}</div>
+              <div class="lb-mode">${winnerText} · P1:${p1Time} / P2:${p2Time}</div>
             </div>
             <div style="font-weight:700;font-size:1rem;">${formatTime(r.time)}</div>
             <div class="lb-date">${dateStr}</div>
