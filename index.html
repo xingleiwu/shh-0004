@@ -741,6 +741,243 @@
   .toast.error { border-color: var(--danger); }
   .toast.p1 { border-color: var(--p1-color); }
   .toast.p2 { border-color: var(--p2-color); }
+  .stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .summary-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  .summary-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+  }
+  .summary-card .sum-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .summary-card .sum-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-light), #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-variant-numeric: tabular-nums;
+  }
+  .summary-card .sum-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .best-records {
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--primary), #f472b6);
+    border-radius: 2px;
+  }
+
+  .difficulty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .difficulty-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 14px;
+    transition: all 0.3s ease;
+  }
+  .difficulty-card:hover {
+    border-color: var(--success);
+  }
+  .difficulty-card.easy { border-left: 3px solid var(--success); }
+  .difficulty-card.medium { border-left: 3px solid var(--warning); }
+  .difficulty-card.hard { border-left: 3px solid var(--danger); }
+  .diff-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .diff-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .diff-size {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .diff-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 0.85rem;
+  }
+  .diff-row .lbl { color: var(--text-muted); }
+  .diff-row .val {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .diff-row .val.time { color: var(--success); }
+  .diff-row .val.moves { color: var(--primary-light); }
+  .no-record {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.85rem;
+  }
+
+  .trend-section {
+    margin-top: 8px;
+  }
+  .chart-container {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .chart-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 120px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .bar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--primary-light), var(--primary));
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: all 0.3s ease;
+    min-height: 4px;
+    cursor: pointer;
+  }
+  .bar:hover {
+    background: linear-gradient(180deg, #f472b6, #ec4899);
+    transform: scaleY(1.05);
+    transform-origin: bottom;
+  }
+  .bar::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+  }
+  .bar:hover::after {
+    opacity: 1;
+  }
+  .bar-labels {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .bar-label {
+    flex: 1;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  .progress-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .progress-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 60px;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .progress-track {
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 10px;
+    height: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--primary), #8b5cf6);
+    transition: width 0.5s ease;
+    position: relative;
+  }
+  .progress-fill.good { background: linear-gradient(90deg, var(--success), #10b981); }
+  .progress-fill.warn { background: linear-gradient(90deg, var(--warning), #f59e0b); }
+  .progress-value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stats-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+  }
+  .stats-empty .icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
   @media (max-width: 480px) {
     body { padding: 12px; }
     .panel { padding: 16px; }
@@ -751,6 +988,13 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 6px;
+    }
+    .progress-item {
+      grid-template-columns: 60px 1fr 50px;
+      gap: 6px;
+    }
+    .summary-card .sum-value {
+      font-size: 1.3rem;
     }
   }
 </style>
@@ -805,8 +1049,10 @@
     <div class="tab-buttons">
       <button class="tab-btn active" data-tab="single">🏆 单人榜</button>
       <button class="tab-btn" data-tab="double">👥 双人榜</button>
+      <button class="tab-btn" data-tab="stats">📊 数据统计</button>
     </div>
     <div id="leaderboardContent"></div>
+    <div id="statsContent" style="display:none;"></div>
   </div>
 </div>
 
@@ -879,6 +1125,7 @@
   const closeModalBtn = $('closeModalBtn');
   const toast = $('toast');
   const leaderboardContent = $('leaderboardContent');
+  const statsContent = $('statsContent');
 
   startBtn.addEventListener('click', startGame);
   pauseBtn.addEventListener('click', togglePause);
@@ -893,7 +1140,16 @@
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderLeaderboard(btn.dataset.tab);
+      const tab = btn.dataset.tab;
+      if (tab === 'stats') {
+        leaderboardContent.style.display = 'none';
+        statsContent.style.display = 'block';
+        renderStatsPanel();
+      } else {
+        leaderboardContent.style.display = 'block';
+        statsContent.style.display = 'none';
+        renderLeaderboard(tab);
+      }
     });
   });
 
@@ -1360,6 +1616,10 @@
     });
     localStorage.setItem(key, JSON.stringify(records.slice(0, 50)));
     renderLeaderboard(state.mode);
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab && activeTab.dataset.tab === 'stats') {
+      renderStatsPanel();
+    }
   }
 
   function showVictory() {
@@ -1492,6 +1752,267 @@
 
     html.push('</div>');
     leaderboardContent.innerHTML = html.join('');
+  }
+
+  function calculateStats(mode) {
+    const key = mode === 'single' ? 'memory_single_records' : 'memory_double_records';
+    const records = JSON.parse(localStorage.getItem(key) || '[]');
+
+    if (records.length === 0) {
+      return null;
+    }
+
+    const totalGames = records.length;
+    const totalTime = records.reduce((sum, r) => sum + r.time, 0);
+    const totalMoves = records.reduce((sum, r) => sum + r.moves, 0);
+    const avgTime = totalTime / totalGames;
+    const avgMoves = totalMoves / totalGames;
+
+    const bestByDifficulty = {};
+    [4, 6, 8].forEach(size => {
+      const diffRecords = records.filter(r => r.size === size);
+      if (diffRecords.length > 0) {
+        const bestTime = Math.min(...diffRecords.map(r => r.time));
+        const bestMoves = Math.min(...diffRecords.map(r => r.moves));
+        bestByDifficulty[size] = {
+          bestTime,
+          bestMoves,
+          count: diffRecords.length
+        };
+      } else {
+        bestByDifficulty[size] = null;
+      }
+    });
+
+    const recentGames = records.slice(-10);
+    const recentTrend = recentGames.map(r => ({
+      time: r.time,
+      moves: r.moves,
+      size: r.size,
+      date: r.date
+    }));
+
+    return {
+      totalGames,
+      avgTime,
+      avgMoves,
+      bestByDifficulty,
+      recentTrend,
+      allRecords: records
+    };
+  }
+
+  function renderStatsPanel() {
+    const singleStats = calculateStats('single');
+    const doubleStats = calculateStats('double');
+
+    let html = '';
+
+    html += `
+      <div class="tab-buttons" style="margin-bottom: 20px;">
+        <button class="tab-btn active" data-stats-tab="single">👤 单人模式统计</button>
+        <button class="tab-btn" data-stats-tab="double">👥 双人模式统计</button>
+      </div>
+      <div id="singleStatsView"></div>
+      <div id="doubleStatsView" style="display:none;"></div>
+    `;
+
+    statsContent.innerHTML = html;
+
+    document.querySelectorAll('[data-stats-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-stats-tab]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.statsTab;
+        $('singleStatsView').style.display = tab === 'single' ? 'block' : 'none';
+        $('doubleStatsView').style.display = tab === 'double' ? 'block' : 'none';
+      });
+    });
+
+    $('singleStatsView').innerHTML = renderStatsView(singleStats, 'single');
+    $('doubleStatsView').innerHTML = renderStatsView(doubleStats, 'double');
+  }
+
+  function renderStatsView(stats, mode) {
+    if (!stats) {
+      return `
+        <div class="stats-empty">
+          <div class="icon">📊</div>
+          <div>暂无${mode === 'single' ? '单人' : '双人'}模式数据，开始游戏创建你的第一个记录吧！</div>
+        </div>
+      `;
+    }
+
+    const sizeMap = { 4: { name: '简单', class: 'easy' }, 6: { name: '中等', class: 'medium' }, 8: { name: '困难', class: 'hard' } };
+
+    let html = '';
+
+    html += `
+      <div class="stats-summary">
+        <div class="summary-card">
+          <div class="sum-label">🎮 总游戏次数</div>
+          <div class="sum-value">${stats.totalGames}</div>
+          <div class="sum-sub">场</div>
+        </div>
+        <div class="summary-card">
+          <div class="sum-label">⏱️ 平均用时</div>
+          <div class="sum-value">${formatTime(stats.avgTime)}</div>
+          <div class="sum-sub">每场</div>
+        </div>
+        <div class="summary-card">
+          <div class="sum-label">👆 平均步数</div>
+          <div class="sum-value">${Math.round(stats.avgMoves)}</div>
+          <div class="sum-sub">每场</div>
+        </div>
+      </div>
+
+      <div class="best-records">
+        <div class="section-title">🏆 各难度最佳成绩</div>
+        <div class="difficulty-grid">
+    `;
+
+    [4, 6, 8].forEach(size => {
+      const diff = sizeMap[size];
+      const best = stats.bestByDifficulty[size];
+      if (best) {
+        html += `
+          <div class="difficulty-card ${diff.class}">
+            <div class="diff-header">
+              <span class="diff-name">${diff.name}</span>
+              <span class="diff-size">${size}×${size} · ${best.count}场</span>
+            </div>
+            <div class="diff-row">
+              <span class="lbl">⚡ 最快用时</span>
+              <span class="val time">${formatTime(best.bestTime)}</span>
+            </div>
+            <div class="diff-row">
+              <span class="lbl">🎯 最少步数</span>
+              <span class="val moves">${best.bestMoves}</span>
+            </div>
+          </div>
+        `;
+      } else {
+        html += `
+          <div class="difficulty-card ${diff.class}">
+            <div class="diff-header">
+              <span class="diff-name">${diff.name}</span>
+              <span class="diff-size">${size}×${size}</span>
+            </div>
+            <div class="no-record">暂无记录</div>
+          </div>
+        `;
+      }
+    });
+
+    html += `
+        </div>
+      </div>
+
+      <div class="trend-section">
+        <div class="section-title">📈 近期表现趋势</div>
+        <div class="chart-container">
+          <div class="chart-title">最近 ${stats.recentTrend.length} 场用时趋势（越低越好）</div>
+          <div class="bar-chart">
+    `;
+
+    const maxTime = Math.max(...stats.recentTrend.map(r => r.time)) || 1;
+    stats.recentTrend.forEach((game, idx) => {
+      const height = (game.time / maxTime) * 100;
+      const date = new Date(game.date);
+      const dateStr = `${date.getMonth()+1}/${date.getDate()} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+      html += `
+        <div class="bar" style="height: ${height}%" 
+             data-tooltip="${dateStr} · ${formatTime(game.time)} · ${game.moves}步 · ${game.size}×${game.size}"></div>
+      `;
+    });
+
+    html += `
+          </div>
+          <div class="bar-labels">
+    `;
+
+    stats.recentTrend.forEach((_, idx) => {
+      html += `<div class="bar-label">${idx + 1}</div>`;
+    });
+
+    html += `
+          </div>
+        </div>
+      </div>
+
+      <div class="trend-section" style="margin-top: 20px;">
+        <div class="chart-container">
+          <div class="chart-title">难度分布</div>
+          <div class="progress-chart">
+    `;
+
+    [4, 6, 8].forEach(size => {
+      const diff = sizeMap[size];
+      const best = stats.bestByDifficulty[size];
+      const count = best ? best.count : 0;
+      const percent = stats.totalGames > 0 ? (count / stats.totalGames) * 100 : 0;
+      let fillClass = '';
+      if (percent >= 50) fillClass = 'good';
+      else if (percent >= 20) fillClass = 'warn';
+
+      html += `
+        <div class="progress-item">
+          <span class="progress-label">${diff.name}</span>
+          <div class="progress-track">
+            <div class="progress-fill ${fillClass}" style="width: ${percent}%"></div>
+          </div>
+          <span class="progress-value">${count}场</span>
+        </div>
+      `;
+    });
+
+    html += `
+          </div>
+        </div>
+      </div>
+
+      ${mode === 'double' && stats.allRecords.length > 0 ? renderDoubleExtraStats(stats) : ''}
+    `;
+
+    return html;
+  }
+
+  function renderDoubleExtraStats(stats) {
+    const p1Wins = stats.allRecords.filter(r => r.winner === 1).length;
+    const p2Wins = stats.allRecords.filter(r => r.winner === 2).length;
+    const draws = stats.allRecords.filter(r => !r.winner).length;
+    const total = stats.totalGames;
+
+    return `
+      <div class="trend-section" style="margin-top: 20px;">
+        <div class="section-title">⚔️ 对战统计</div>
+        <div class="chart-container">
+          <div class="progress-chart">
+            <div class="progress-item">
+              <span class="progress-label" style="color: var(--p1-color-light);">玩家1胜</span>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: ${(p1Wins/total)*100}%; background: linear-gradient(90deg, var(--p1-color), var(--p1-color-light));"></div>
+              </div>
+              <span class="progress-value" style="color: var(--p1-color-light);">${p1Wins}场</span>
+            </div>
+            <div class="progress-item">
+              <span class="progress-label" style="color: var(--p2-color-light);">玩家2胜</span>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: ${(p2Wins/total)*100}%; background: linear-gradient(90deg, var(--p2-color), var(--p2-color-light));"></div>
+              </div>
+              <span class="progress-value" style="color: var(--p2-color-light);">${p2Wins}场</span>
+            </div>
+            <div class="progress-item">
+              <span class="progress-label" style="color: var(--warning);">平局</span>
+              <div class="progress-track">
+                <div class="progress-fill warn" style="width: ${(draws/total)*100}%;"></div>
+              </div>
+              <span class="progress-value" style="color: var(--warning);">${draws}场</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   renderLeaderboard('single');
